@@ -1,0 +1,22 @@
+// 동현텐 규칙 시험: node qa/core-tests.cjs
+const assert=require('assert');const {Game,COLS}=require('../src/engine.js');
+const D=require('../src/donghyun.js');const {examples}=require('../src/examples.js');
+let n=0;const check=(name,f)=>{f();n++;console.log('ok',name);};
+const board=(digits,opt)=>{const g=new Game(Object.assign({rng:()=>0.5},opt));g.cells=digits.map(v=>({v:v==null?0:v,live:v!=null,batch:0}));return g;};
+check('기본값 Add 7 · Hint 3, 첫 판 42칸',()=>{const g=new Game();assert.equal(g.adds,7);assert.equal(g.hints,3);assert.equal(g.cells.length,42);assert(g.findPair());});
+check('같은 수와 합 10',()=>{const g=board([3,3,1,9,4,5]);assert(g.canPair(0,1));assert(g.canPair(2,3));assert(!g.canPair(4,5));});
+check('가로: 사이에 산 수가 있으면 안 됨, 지워진 칸은 건너뜀',()=>{const g=board([2,5,8]);assert(!g.canPair(0,2));g.cells[1].live=false;assert(g.canPair(0,2));});
+check('줄 끝 → 다음 줄 첫 칸',()=>{const g=board([1,1,1,1,1,1,1,1,3, 7,2,2,2,2,2,2,2,2]);assert(g.canPair(8,9));});
+check('세로',()=>{const d=Array(27).fill(1);d[4]=8;d[13]=5;d[22]=2;const g=board(d);assert(!g.canPair(4,22));g.cells[13].live=false;assert(g.canPair(4,22));});
+check('대각선 ↘ ↙',()=>{const d=Array(27).fill(5);d[0]=6;d[10]=4;d[8]=3;d[16]=7;const g=board(d);assert(g.canPair(0,10));assert(g.canPair(8,16));assert(!g.canPair(0,16));});
+check('대각선이 줄을 넘어 감기지 않음',()=>{const d=Array(18).fill(5);d[8]=6;d[9+0]=4;const g=board(d);assert.equal(g.link(8,9),1);d[8]=6;const g2=board(Array(27).fill(5));g2.cells[8].v=6;g2.cells[18].v=4;assert.equal(g2.link(8,18),0);});
+check('점수: 붙은 짝 1, 떨어진 짝 4',()=>{const g=board([3,3,9,6,1,2,4]);assert.equal(g.match(0,1).points,1);g.cells[1].live=false;g.cells[3].live=false;g.cells[4].live=true;const g2=board([2,null,8,5,5]);assert.equal(g2.match(0,2).points,4);});
+check('빈 줄은 빠지고 10점',()=>{const d=[5,null,null,null,null,null,null,null,5, 1,2,3,4,6,7,8,9,1];const g=board(d);const r=g.match(0,8);assert.equal(r.rows,1);assert.equal(r.points,14);assert.equal(g.cells.length,9);assert.equal(g.cells[0].v,1);});
+check('판을 비우면 150점, 다음 판, Add·Hint 되돌림',()=>{const g=board([4,6],{add:2,hint:1});g.adds=0;g.hints=0;const r=g.match(0,1);assert(r.cleared);assert.equal(g.stage,2);assert.equal(g.adds,2);assert.equal(g.hints,1);assert.equal(r.points,1+10+150);});
+check('Add: 남은 수를 순서대로 뒤에 다시 적음',()=>{const g=board([1,null,2,3]);g.adds=1;const r=g.add();assert(r.ok);assert.deepEqual(g.cells.slice(4).map(c=>c.v),[1,2,3]);assert.equal(g.adds,0);assert(!g.add().ok);});
+check('Hint: 짝을 보여 주고 하나 씀, 짝 없으면 Add를 가리키고 안 씀',()=>{const g=board([1,2,3]);g.hints=2;g.adds=1;let h=g.hint();assert(h.add);assert.equal(g.hints,2);g.cells.push({v:3,live:true});h=g.hint();assert.deepEqual(h.pair,[2,3]);assert.equal(g.hints,1);});
+check('끝: 짝이 없고 Add가 없을 때',()=>{const g=board([1,2,3]);g.adds=0;assert(g.over());g.adds=1;assert(!g.over());});
+check('findPair와 canPair가 무작위 판에서 일치',()=>{let s=1;const rng=()=>{s=(s*16807)%2147483647;return s/2147483647;};for(let t=0;t<300;t++){const g=new Game({rng});for(const c of g.cells)if(rng()<0.4)c.live=false;let any=false;for(let i=0;i<g.cells.length;i++)for(let j=i+1;j<g.cells.length;j++)if(g.canPair(i,j))any=true;assert.equal(!!g.findPair(),any);const p=g.findPair();if(p)assert(g.canPair(...p));}});
+check('끝까지 두는 자동 판(Add 7 · Hint 3)',()=>{let s=7;const rng=()=>{s=(s*16807)%2147483647;return s/2147483647;};for(let t=0;t<50;t++){const g=new Game({rng});let guard=0;while(!g.over()&&guard++<20000){const p=g.findPair();if(p)assert(g.match(...p).ok);else assert(g.add().ok);}assert(g.over());}});
+check('예제 출력이 Add·Hint 두 정수',()=>{const want={basic:[7,3],tight:[5,1],bare:[0,0]};for(const e of examples)assert.deepEqual(D.run(e.code,{maxSteps:100000}).output.trim().split(/\s+/).map(Number),want[e.id]);});
+console.log(n+' passed');

@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Donghyunten (동현텐): a number-pair laboratory in which equal digits or digits summing to ten are cleared, with the Add and Hint allowances set through the esoteric language Donghyun-lang"
+type: software
+version: "0.1"
+date-released: "2026-10-30"
+authors:
+  - family-names: Kim
+    given-names: Dong Hyun
+    orcid: "https://orcid.org/0000-0001-9883-0229"
+    affiliation: "Inha University College of Medicine"
+license: MIT
+repository-code: "https://github.com/Raspberry-Kim/donghyun-lab6"
+url: "https://raspberry-kim.github.io/donghyun-lab6/"
+abstract: >-
+  Donghyunten is a browser-based, noncommercial number-pair puzzle in the
+  tradition of the pen-and-paper game known as Take Ten, Numberama or Seeds.
+  Two digits are cleared when they are equal or sum to ten and are joined
+  horizontally, vertically or diagonally with only cleared cells between them;
+  rows also continue from the end of one line to the start of the next. Add
+  rewrites the remaining digits at the end of the board, and Hint shows one
+  clearable pair. The only settings, the number of Adds and Hints (0-9 each;
+  default 7 and 3), are chosen through a program written in the esoteric
+  programming language Donghyun-lang. Scores, emptied rows and cleared boards
+  follow a common scheme, and best scores are kept only in the browser. The
+  MIT license applies to the Donghyunten code and documentation; the page
+  fonts are under the SIL Open Font License. See LICENSE and CREDITS.md.
+keywords:
+  - number puzzle
+  - Take Ten
+  - Numberama
+  - esoteric programming language
+  - JavaScript
+references:
+  - type: software
+    title: "Donghyun-lang (동현랭): a Korean esoteric programming language with a browser playground"
+    authors:
+      - family-names: Kim
+        given-names: Dong Hyun
+        orcid: "https://orcid.org/0000-0001-9883-0229"
+        affiliation: "Inha University College of Medicine"
+    version: "1.53"
+    license: MIT
+    repository-code: "https://github.com/Raspberry-Kim/donghyun-lang"
