@@ -4,6 +4,7 @@ title: "Donghyunten (동현텐): a number-pair laboratory in which equal digits 
 type: software
 version: "0.1"
 date-released: "2026-10-30"
+doi: "10.5281/zenodo.23788169"
 authors:
   - family-names: Kim
     given-names: Dong Hyun
