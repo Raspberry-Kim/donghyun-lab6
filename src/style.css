@@ -212,3 +212,5 @@ button.cell:focus-visible{outline:3px solid #a5791c;outline-offset:-3px}
 @media(max-width:780px){.ten-wrap{padding:8px;border-radius:10px}.ten-chip{min-width:96px;padding:5px 10px}.ten-chip strong{font-size:19px}.ten-round{width:36px;height:36px}.ten-legend{display:none}.ten-bottom{justify-content:center;gap:28px}.ten-ico{width:54px;height:54px}.ten-scroll{max-height:62vh}}
 @media(max-width:420px){.ten-top{justify-content:flex-end}.ten-chip{min-width:84px}}
 @media(prefers-reduced-motion:reduce){.ten-flash.on,.cell.hint,.ten-board.shake,.ten-tool.point .ten-ico{animation:none}.ten-flash.on{opacity:1}}
+.maker-note{margin-top:16px;padding:20px 0 8px;border-top:1px solid var(--line);max-width:850px}
+.maker-note p{font-size:var(--text-sm)}

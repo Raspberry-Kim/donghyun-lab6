@@ -65,3 +65,7 @@ node qa/ui.cjs            # 화면 시험(Playwright, 데스크톱·휴대전화
 ## 라이선스
 
 동현텐 코드·문서: MIT (김동현). 동현랭 실행기: MIT. 글꼴: Black Han Sans, 나눔고딕코딩, Pretendard — 각각 SIL OFL 1.1 (`licenses/`).
+
+## 만든 사람
+
+인하대학교 의과대학 김동현 교수는 백신학·감염학을 연구한다. 명랑하고 따뜻한 개발을 지향한다.
