@@ -6,6 +6,10 @@ const MIN=0, MAX=9, DEF_ADD=7, DEF_HINT=3, VISIBLE_ROWS=12;
 
 /* ---------- 화면 전환과 탭 ---------- */
 $('#theme').onclick=()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('#theme').setAttribute('aria-pressed',String(dark));};
+const SND=DHSFX('donghyunten:sound');
+function sndUI(){ const b=$('#sound'); b.setAttribute('aria-pressed',String(SND.on)); b.classList.toggle('muted',!SND.on); b.title=SND.on?'효과음 켬 (M)':'효과음 끔 (M)'; }
+$('#sound').onclick=()=>{ SND.set(!SND.on); sndUI(); }; sndUI();
+document.addEventListener('keydown',e=>{ if(e.code!=='KeyM'||e.metaKey||e.ctrlKey||e.altKey) return; const el=document.activeElement; if(el&&(el.tagName==='TEXTAREA'||el.tagName==='SELECT'||el.tagName==='INPUT')) return; SND.set(!SND.on); sndUI(); status(SND.on?'효과음 켬':'효과음 끔'); });
 function showTab(name){
   document.querySelectorAll('.tabs button').forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('active',on);on?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current');});
   document.querySelectorAll('.tab-panel').forEach(p=>p.hidden=p.id!=='tab-'+name);
@@ -105,7 +109,7 @@ function checkOver(){
   $('#over-score').textContent=game.score.toLocaleString();
   $('#best-day').textContent=b.dayBest.toLocaleString();$('#best-week').textContent=b.weekBest.toLocaleString();$('#best-all').textContent=b.all.toLocaleString();
   $('#over-note').textContent=`STAGE ${game.stage} · 지운 짝 ${game.pairs}개 · Add ${settings.add} · Hint ${settings.hint}`;
-  $('#over').hidden=false; $('#again').focus({preventScroll:true});
+  $('#over').hidden=false; $('#again').focus({preventScroll:true}); SND.play('over');
   status('끝 · 지울 짝도 Add도 없다');
   return true;
 }
@@ -118,11 +122,12 @@ function newGame(){
 board.addEventListener('click',e=>{
   const b=e.target.closest('button.cell'); if(!b||finished)return;
   const i=+b.dataset.i;
-  if(sel<0){sel=i;render();return;}
+  if(sel<0){sel=i;SND.play('tick');render();return;}
   if(sel===i){sel=-1;render();return;}
   const stage=game.stage, r=game.match(sel,i);
-  if(!r.ok){shake();sel=i;render();return;}
+  if(!r.ok){shake();SND.play('buzz');sel=i;render();return;}
   sel=-1; hintPair=null; $('#add').classList.remove('point');
+  SND.play(r.cleared?'win':r.rows?'rows':'pop');
   if(r.cleared){flash(`판을 비웠다 +${r.points}`);status(`STAGE ${game.stage}로 · Add·Hint를 다시 채웠다`);scroll.scrollTop=0;}
   else if(r.rows){flash(`줄 ${r.rows}개 +${r.points}`);status(`STAGE ${stage} · 줄을 지웠다`);}
   else {flash('+'+r.points);status(`STAGE ${stage} · ${r.near?'붙은':'떨어진'} 짝 +${r.points}`);}
@@ -130,14 +135,14 @@ board.addEventListener('click',e=>{
 });
 $('#add').onclick=()=>{
   if(finished)return; const before=game.cells.length, r=game.add(); if(!r.ok)return;
-  sel=-1; hintPair=null; $('#add').classList.remove('point'); render();
+  sel=-1; hintPair=null; $('#add').classList.remove('point'); SND.play('swish'); render();
   status(`남은 수 ${r.count}개를 다시 적었다 · Add ${game.adds}번 남음`);
   const row=board.children[before]; if(row) scroll.scrollTo({top:Math.max(0,row.offsetTop-scroll.clientHeight/3),behavior:'smooth'});
   checkOver();
 };
 $('#hint').onclick=()=>{
   if(finished)return; const h=game.hint();
-  if(h.pair){hintPair=h.pair;sel=-1;render();status(`짝 하나를 노랗게 보였다 · Hint ${game.hints}번 남음`);
+  if(h.pair){hintPair=h.pair;sel=-1;SND.play('sparkle');render();status(`짝 하나를 노랗게 보였다 · Hint ${game.hints}번 남음`);
     const c=board.children[h.pair[0]]; if(c) scroll.scrollTo({top:Math.max(0,c.offsetTop-scroll.clientHeight/3),behavior:'smooth'});}
   else if(h.add){$('#add').classList.add('point');status('지울 짝이 없다 · Add를 눌러 보자(Hint는 줄지 않았다)');}
 };

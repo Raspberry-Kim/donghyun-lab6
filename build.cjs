@@ -9,7 +9,7 @@ const html=src('index.html')
   .replace('__SERIES_NAV__',()=>src('series.html'))
   .replace('__BRAND_ICON__',()=>src('brand-icon.txt').trim())
   .replace('<link rel="stylesheet" href="./style.css">',()=>`<style>${css}</style>`)
-  .replace('<script src="./engine.js"></script>\n<script src="./app.js"></script>',()=>['donghyun.js','examples.js','engine.js','app.js'].map(n=>'<script>'+src(n).replaceAll('</script','<\\/script')+'</script>').join('\n'));
+  .replace('<script src="./engine.js"></script>\n<script src="./sfx.js"></script>\n<script src="./app.js"></script>',()=>['donghyun.js','examples.js','engine.js','sfx.js','app.js'].map(n=>'<script>'+src(n).replaceAll('</script','<\\/script')+'</script>').join('\n'));
 if(html.includes('src="./app.js"'))throw new Error('스크립트를 묶지 못했다');
 fs.writeFileSync(path.join(root,'index.html'),html);
 fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});
