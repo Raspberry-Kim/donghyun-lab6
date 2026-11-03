@@ -10,7 +10,7 @@
 ## 동현텐이 새로 만든 것
 
 - 규칙 엔진(`src/engine.js`), 숫자 판 화면(`src/app.js`, `src/style.css`), 동현랭 Add·Hint 규약과 예제(`src/examples.js`), 시험(`qa/`), 문서.
-- 동현랭 실행기(`src/donghyun.js`)는 [동현랭 저장소](https://github.com/Raspberry-Kim/donghyun-lang)의 v1.54을 고치지 않고 썼다.
+- 동현랭 실행기(`src/donghyun.js`)는 [동현랭 저장소](https://github.com/Raspberry-Kim/donghyun-lang)의 v1.55을 고치지 않고 썼다.
 
 ## 이용 조건
 
