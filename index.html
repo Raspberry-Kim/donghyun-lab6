@@ -222,6 +222,16 @@ button.cell:focus-visible{outline:3px solid #a5791c;outline-offset:-3px}
 .maker-note p{font-size:var(--text-sm)}
 .ten-board{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html{touch-action:manipulation}.ten-wrap,.ten-board,.cell,.ten-tool,.ten-round{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+/* 입력 표식: 머리글 오른쪽, 켜진 아이콘만 이 실험실에서 쓸 수 있는 입력 */
+.input-marks{width:100%;grid-column:1/-1;display:flex;justify-content:center;gap:30px;margin-top:12px}
+.input-marks .mark{display:block;line-height:0}
+.input-marks svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.input-marks svg .dots{stroke-width:2.2}
+.input-marks .on.kb{color:#2f3f94;filter:drop-shadow(0 0 5px rgba(47,63,148,.45))}
+.input-marks .on.ms{color:#9a7a1e;filter:drop-shadow(0 0 5px rgba(154,122,30,.5))}
+.input-marks .on.gp{color:#e0463c;filter:drop-shadow(0 0 5px rgba(224,70,60,.5))}
+.input-marks .off{color:#9a948a;opacity:.25}
 </style>
 </head>
 <body>
@@ -235,7 +245,7 @@ html{touch-action:manipulation}.ten-wrap,.ten-board,.cell,.ten-tool,.ten-round{t
 <!-- SERIES-NAV-END -->
   <section class="intro">
     <div><div class="eyebrow">NUMBER PAIRS × ESOTERIC LANGUAGE</div><h1>숫자 짝 실험실: <span class="title-brand">동현<span>텐</span><sup>TM</sup></span></h1><p>같은 수이거나 <strong>합이 10</strong>인 두 수를 찾아 지운다. 막혔을 때 쓰는 <strong>Add</strong>와 <strong>Hint</strong>의 횟수는 <strong>동현랭</strong>으로 정한다.</p></div>
-    <div class="model-stamp"><strong id="stamp-add">7 <span>Add</span></strong><strong id="stamp-hint">3 <span>Hint</span></strong><small>9칸 판 · 첫 수 42개 · Add·Hint 0~9</small></div>
+    <div class="model-stamp"><strong id="stamp-add">7 <span>Add</span></strong><strong id="stamp-hint">3 <span>Hint</span></strong><small>9칸 판 · 첫 수 42개 · Add·Hint 0~9</small><div class="input-marks" role="group" aria-label="입력 표식 · 쓸 수 있는 입력: 마우스"><span class="mark off kb" title="키보드 안 됨" aria-label="키보드 안 됨"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path class="dots" d="M6 10h.01M9.5 10h.01M13 10h.01M16.5 10h.01M6 13h.01M9.5 13h.01M13 13h.01M16.5 13h.01"/><path d="M8 16h8"/></svg></span><span class="mark on ms" title="마우스 가능" aria-label="마우스 가능"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="5"/><path d="M12 7v3"/></svg></span><span class="mark off gp" title="게임패드 안 됨" aria-label="게임패드 안 됨"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10a5 5 0 0 1 5 5v2.5a2.5 2.5 0 0 1-4.6 1.4L16 14H8l-1.4 1.9A2.5 2.5 0 0 1 2 14.5V12a5 5 0 0 1 5-5z"/><path d="M7 10.5v3M5.5 12h3"/><circle cx="16.5" cy="11" r=".7"/><circle cx="18.6" cy="13" r=".7"/></svg></span></div></div>
   </section>
   <nav class="tabs" aria-label="동현텐 메뉴"><button class="active" data-tab="play" aria-current="page">놀이</button><button data-tab="protocol">동현텐 규약</button><button data-tab="rules">놀이 방법</button><button data-tab="about">원작과 출처</button><span>횟수는 동현랭으로, 짝은 손으로</span></nav>
   <div class="getting-started"><p><strong>처음이라면?</strong> 예제를 고르고 <b>시작</b>을 눌러 보자. Add와 Hint의 횟수는 모두 <b>동현랭</b> 명령으로만 정한다.</p><a href="https://raspberry-kim.github.io/donghyun-lang/" target="_blank" rel="noopener">동현랭 배우기 · 실행기 ↗</a></div>
@@ -319,6 +329,7 @@ html{touch-action:manipulation}.ten-wrap,.ten-board,.cell,.ten-tool,.ten-round{t
       <div>
         <h3>짝을 지운다</h3>
         <ul>
+          <li>머리글 오른쪽의 세 아이콘(키보드·마우스·게임패드)은 입력 표식이다. 켜진 것만 이 실험실에서 쓸 수 있다: <b>마우스</b>.</li>
           <li>같은 두 수(예: 3과 3)나 합이 10인 두 수(예: 2와 8)가 짝이다. 두 수를 차례로 누르면 지워진다.</li>
           <li>짝은 <strong>가로·세로·대각선</strong>으로 이웃해야 한다.</li>
           <li>사이에 <strong>지워진 칸만</strong> 있으면 떨어져 있어도 짝이 된다. 지울수록 새 길이 열린다.</li>
