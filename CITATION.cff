@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
 title: "Donghyunten (동현텐): a number-pair laboratory in which equal digits or digits summing to ten are cleared, with the Add and Hint allowances set through the esoteric language Donghyun-lang"
 type: software
-version: "0.25"
+version: "0.26"
 date-released: "2026-11-12"
 doi: "10.5281/zenodo.23788169"
 authors:
